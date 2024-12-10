@@ -13,6 +13,8 @@ def parse_cnf(cnf_path):
         c = 0
         v = 0
 
+        var_dict = {}
+        max_value = 1
         for line in f:
             if line[0] == 'c':
                 continue
@@ -24,7 +26,15 @@ def parse_cnf(cnf_path):
             else:
                 # all following lines should represent a clause, so literals separated by spaces, with a 0 at the end,
                 # denoting the end of the line.
-                clauses_list.append([int(x) for x in line.split(" ")[:-1]])
+                clause = [int(x) for x in line.split(" ")[:-1]]
+                new_clause = []
+                for cl in clause:
+                    sign = -1 if cl < 0 else 1
+                    if abs(cl) not in var_dict:
+                        var_dict[abs(cl)] = max_value
+                        max_value+=1
+                    new_clause.append(var_dict[abs(cl)] * sign)
+                clauses_list.append(new_clause)
 
         c = len(clauses_list)
         v = max([abs(l) for clause in clauses_list for l in clause])

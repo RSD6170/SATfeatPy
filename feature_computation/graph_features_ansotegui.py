@@ -272,6 +272,7 @@ def create_vig(clauses, c, v):
     for clause in clauses:
         # Ensure that the clause has at least two literals to compute the weight
         if len(clause) < 2:
+            vig.add_node(clause[0])
             continue
 
         # Compute the weight as 1 / (|c| choose 2)
@@ -279,6 +280,7 @@ def create_vig(clauses, c, v):
 
         # Iterate through all pairs of variables in the clause to update the edge weights
         for i in range(len(clause)):
+            vig.add_node(abs(clause[i]))
             for j in range(i + 1, len(clause)):
                 v_node_i = abs(clause[i])
                 v_node_j = abs(clause[j])
@@ -338,7 +340,7 @@ def burning_by_node_degree(graph, n: int):
     num_connected_components = networkx.number_connected_components(graph)
     dmaxx = 16
 
-    for i in range(1, min(dmaxx+1, len(N))):
+    for i in range(2, min(dmaxx+1, len(N))):
         if N[i - 1] > num_connected_components:
             burned = [False] * (n + 1)
             burned[0] = True
@@ -347,7 +349,7 @@ def burning_by_node_degree(graph, n: int):
             while not all(burned):
                 c = highest_degree_unburned_node(node_degrees, burned)
                 # for every possible node c.
-                S = circle(c, i-1, graph) # circle with centre c and radius i
+                S = circle(c, i, graph) # circle with centre c and radius i
 
                 # print("nodes in circle", S)
                 for x in S:
@@ -369,7 +371,10 @@ def highest_degree_unburned_node(node_degrees, burned):
     # nodes are pre sorted in terms of their degree, does not change
     for (node, degree) in node_degrees:
         if not burned[node]:
+            if node is None:
+                print("wtf")
             return node
+    print("wtf2")
 
 
 def circle(centre, radius, graph):
