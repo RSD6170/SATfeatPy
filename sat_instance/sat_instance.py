@@ -38,7 +38,9 @@ class SATInstance:
 
         if self.v == 0 or self.c == 0:
             self.solved = True
-            return
+            self.path_to_cnf = input_cnf # modification to force computation even on solved instances
+            self.clauses, self.c, self.v = parse_cnf.parse_cnf(self.path_to_cnf)
+            self.preprocess = False
         else:
             self.solved = False
 
@@ -62,7 +64,7 @@ class SATInstance:
 
         self.var_states = []
 
-        self.features_dict = {}
+        self.features_dict = {"solved": self.solved}
 
         # necessary for unit propagation setup
         if self.verbose:
@@ -137,7 +139,13 @@ class SATInstance:
         if self.preprocess == False:
             # print(self.v)
             self.num_active_clauses = self.c
-            self.num_active_vars = self.v    
+            self.num_active_vars = self.v
+
+        if self.num_active_clauses == 0:
+            self.num_active_clauses = self.c
+
+        if self.num_active_vars == 0:
+            self.num_active_vars = self.v
         
         alpha = graph_features_ansotegui.estimate_power_law_alpha(self.clauses, self.num_active_clauses,
                                                                   self.num_active_vars)

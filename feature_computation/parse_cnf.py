@@ -37,6 +37,7 @@ def parse_cnf(cnf_path):
                 clauses_list.append(new_clause)
 
         c = len(clauses_list)
-        v = max([abs(l) for clause in clauses_list for l in clause])
+        if c != 0:
+            v = max([abs(l) for clause in clauses_list for l in clause])
 
     return clauses_list, c, v
