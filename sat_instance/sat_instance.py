@@ -1,3 +1,5 @@
+import tempfile
+
 from feature_computation import preprocessing, parse_cnf, active_features, base_features, local_search_probing, \
     graph_features_ansotegui, graph_features_manthey_alfonso, more_graph_features
 from feature_computation.dpll import DPLLProbing
@@ -12,7 +14,7 @@ class SATInstance:
 
     """
 
-    def __init__(self, input_cnf, preprocess=True, verbose=False, preprocess_tmp=True):
+    def __init__(self, input_cnf, preprocess=True, verbose=False, preprocess_tmp=True, tmpPath=tempfile.gettempdir()):
         self.verbose = verbose
         self.preprocess = preprocess
         self.path_to_cnf = input_cnf
@@ -25,7 +27,7 @@ class SATInstance:
                 print("Preprocessing with SatELite")
 
             if preprocess_tmp:
-                preprocessed_path = preprocessing.satelite_preprocess_tmp(self.path_to_cnf)
+                preprocessed_path = preprocessing.satelite_preprocess_tmp(self.path_to_cnf, tmpPath)
             else:
                 preprocessed_path = preprocessing.satelite_preprocess(self.path_to_cnf)
             self.path_to_cnf = preprocessed_path
