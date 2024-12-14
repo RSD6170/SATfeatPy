@@ -214,7 +214,7 @@ class SATInstance:
         for stats_dict in all_stats:
             self.features_dict.update(stats_dict)
 
-        rwh = more_graph_features.recursive_weight_heuristic(10, self.clauses, self.num_active_vars)
+        rwh = more_graph_features.recursive_weight_heuristic(10, self.clauses, self.v)
         self.features_dict.update(rwh)
 
     def write_results(self):
