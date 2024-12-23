@@ -74,4 +74,5 @@ if __name__ == "__main__":
         print(f"Error, unknown argument for subset: {subset}")
         exit(-1)
     export = { k : str(v) for k,v in satinstance.features_dict.items() }
+    print("######----######")
     print(json.dumps(export, indent=None))
