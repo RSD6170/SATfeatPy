@@ -1,4 +1,5 @@
 import os
+from tempfile import mkdtemp
 
 
 def local_search_probe(cnf_file, saps=True, gsat=True):
@@ -23,9 +24,6 @@ def local_search_probe(cnf_file, saps=True, gsat=True):
     # -runs num_runs
     # -gtimeout time_limit -> gtimeout as opposed to timeout
 
-    # file = "cnf_examples/basic.cnf"
-    if not os.path.isdir("results/"):
-        os.mkdir("results")
 
     args_list = []
     args_list.append("./ubcsat/ubcsat_linux")
@@ -39,7 +37,7 @@ def local_search_probe(cnf_file, saps=True, gsat=True):
 
     # set up statistics used as features
     args_list.append("-r stats")
-    temp_fn = os.popen("mktemp /tmp/sapsgsat-XXXX").read().strip("\n")
+    temp_fn = os.popen("mktemp sapsgsat-XXXX").read().strip("\n")
     # args_list.append("ubcsat/results/out.txt")
     args_list.append(temp_fn)
     args_list.append("best[mean+cv],firstlmstep[mean+median+cv+q10+q90],bestavgimpr[mean+cv],firstlmratio[mean+cv],estacl")
