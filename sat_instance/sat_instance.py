@@ -171,51 +171,67 @@ class SATInstance:
 
         self.features_dict.update(ansotegui_features)
 
-    def gen_manthey_alfonso_graph_features(self):
+    def gen_manthey_alfonso_graph_features_VCG(self):
         if self.verbose:
             print("Generating features from the paper of Manthey-Alfonso")
 
         v_nd_p, v_nd_n, c_nd_p, c_nd_n = graph_features_manthey_alfonso.create_vcg(self.clauses)
 
-        all_stats = [graph_features_manthey_alfonso.get_graph_stats("v_nd_p_", v_nd_p),
-                     graph_features_manthey_alfonso.get_graph_stats("v_nd_n_", v_nd_n),
-                     graph_features_manthey_alfonso.get_graph_stats("c_nd_p_", c_nd_p),
-                     graph_features_manthey_alfonso.get_graph_stats("c_nd_n_", c_nd_n)]
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("v_nd_p_", v_nd_p))
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("v_nd_n_", v_nd_n))
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("c_nd_p_", c_nd_p))
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("c_nd_n_", c_nd_n))
+
+    def gen_manthey_alfonso_graph_features_VGAL(self):
+        if self.verbose:
+            print("Generating features from the paper of Manthey-Alfonso")
 
         nd, w = graph_features_manthey_alfonso.create_vg(self.clauses)
-        all_stats.append(graph_features_manthey_alfonso.get_graph_stats("vg_al_", nd, w))
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("vg_al_", nd, w))
+
+    def gen_manthey_alfonso_graph_features_CGAL(self):
+        if self.verbose:
+            print("Generating features from the paper of Manthey-Alfonso")
+
 
         nd, w = graph_features_manthey_alfonso.create_cg(self.clauses)
-        cg_stats = graph_features_manthey_alfonso.get_graph_stats("cg_al_", nd, w)
-        all_stats.append(cg_stats)
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("cg_al_", nd, w))
+
+    def gen_manthey_alfonso_graph_features_RG(self):
+        if self.verbose:
+            print("Generating features from the paper of Manthey-Alfonso")
 
         nd, w = graph_features_manthey_alfonso.create_rg(self.clauses)
-        rg_stats = graph_features_manthey_alfonso.get_graph_stats("rg_", nd, w)
-        all_stats.append(rg_stats)
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("rg_", nd, w))
+
+    def gen_manthey_alfonso_graph_features_BIG(self):
+        if self.verbose:
+            print("Generating features from the paper of Manthey-Alfonso")
 
         _, nd, w = graph_features_manthey_alfonso.create_big(self.clauses)
-        big_stats = graph_features_manthey_alfonso.get_graph_stats("big_", nd, w)
-        all_stats.append(big_stats)
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("big_", nd, w))
+
+    def gen_manthey_alfonso_graph_features_EB(self):
+        if self.verbose:
+            print("Generating features from the paper of Manthey-Alfonso")
 
         andg, bandg, exog = graph_features_manthey_alfonso.create_exo_and_band(self.clauses)
 
         nd, w = graph_features_manthey_alfonso.get_degrees_weights(andg)
-        and_stats = graph_features_manthey_alfonso.get_graph_stats("and_", nd, w)
-        all_stats.append(and_stats)
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("and_", nd, w))
 
         nd, w = graph_features_manthey_alfonso.get_degrees_weights(bandg)
-        band_stats = graph_features_manthey_alfonso.get_graph_stats("band_", nd, w)
-        all_stats.append(band_stats)
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("band_", nd, w))
 
         nd, w = graph_features_manthey_alfonso.get_degrees_weights(exog)
-        exo_stats = graph_features_manthey_alfonso.get_graph_stats("exo_", nd, w)
-        all_stats.append(exo_stats)
+        self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("exo_", nd, w))
 
-        for stats_dict in all_stats:
-            self.features_dict.update(stats_dict)
+    def gen_manthey_alfonso_graph_features_RWH(self):
+        if self.verbose:
+            print("Generating features from the paper of Manthey-Alfonso")
 
-        rwh = more_graph_features.recursive_weight_heuristic(10, self.clauses, self.v)
-        self.features_dict.update(rwh)
+        self.features_dict.update(more_graph_features.recursive_weight_heuristic(10, self.clauses, self.v))
+
 
     def write_results(self):
         write_to_file.write_features_to_json(self.features_dict)
