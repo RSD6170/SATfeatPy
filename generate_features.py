@@ -94,8 +94,9 @@ if __name__ == "__main__":
     soft, hard = resource.getrlimit(resource.RLIMIT_AS)
     print(f"Old mem limits: {soft / 1024 / 1024} MB soft, {hard / 1024 / 1024} MB hard")
     if 'SLURM_MEM_PER_NODE' in os.environ:
-        maxMem = int(os.environ.get('SLURM_MEM_PER_NODE')) * 1024 * 1024 * 0.45
-        resource.setrlimit(resource.RLIMIT_AS, (int(get_memory() * 1024 / 2), hard))
+        maxMem = int( int(os.environ.get('SLURM_MEM_PER_NODE')) * 1024 * 1024 * 0.45 )
+        print(f"New mem limits: {maxMem / 1024 / 1024} MB soft, {hard / 1024 / 1024} MB hard")
+        resource.setrlimit(resource.RLIMIT_AS, (maxMem, hard))
 
 
     parser = argparse.ArgumentParser(prog="SATfeatPy")
