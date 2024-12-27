@@ -3,6 +3,8 @@ import sys
 import json
 import tempfile
 import time
+import resource
+import os
 from nis import match
 
 from sat_instance.sat_instance import SATInstance
@@ -88,6 +90,13 @@ def doMAG_RWH(instance):
 if __name__ == "__main__":
     # Ideal usage - call features, with filename to calculate from, and then options on preprocessing,
     # linux test setup
+
+    soft, hard = resource.getrlimit(resource.RLIMIT_AS)
+    print(f"Old mem limits: {soft / 1024 / 1024} MB soft, {hard / 1024 / 1024} MB hard")
+    if 'SLURM_MEM_PER_NODE' in os.environ:
+        maxMem = int(os.environ.get('SLURM_MEM_PER_NODE')) * 1024 * 1024 * 0.45
+        resource.setrlimit(resource.RLIMIT_AS, (int(get_memory() * 1024 / 2), hard))
+
 
     parser = argparse.ArgumentParser(prog="SATfeatPy")
     parser.add_argument("--tmp_path", type=str, default=tempfile.gettempdir(), help="Path for temporary files")
