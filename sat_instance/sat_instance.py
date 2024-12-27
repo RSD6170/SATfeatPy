@@ -177,16 +177,23 @@ class SATInstance:
 
         v_nd_p, v_nd_n, c_nd_p, c_nd_n = graph_features_manthey_alfonso.create_vcg(self.clauses)
 
+        print("Generated Graph!")
+
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("v_nd_p_", v_nd_p))
+        print("V_ND_P finished!")
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("v_nd_n_", v_nd_n))
+        print("V_ND_N finished!")
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("c_nd_p_", c_nd_p))
+        print("C_ND_P finished!")
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("c_nd_n_", c_nd_n))
+        print("C_ND_N finished!")
 
     def gen_manthey_alfonso_graph_features_VGAL(self):
         if self.verbose:
             print("Generating features from the paper of Manthey-Alfonso")
 
         nd, w = graph_features_manthey_alfonso.create_vg(self.clauses)
+        print("Generated Graph!")
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("vg_al_", nd, w))
 
     def gen_manthey_alfonso_graph_features_CGAL(self):
@@ -195,6 +202,7 @@ class SATInstance:
 
 
         nd, w = graph_features_manthey_alfonso.create_cg(self.clauses)
+        print("Generated Graph!")
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("cg_al_", nd, w))
 
     def gen_manthey_alfonso_graph_features_RG(self):
@@ -202,6 +210,7 @@ class SATInstance:
             print("Generating features from the paper of Manthey-Alfonso")
 
         nd, w = graph_features_manthey_alfonso.create_rg(self.clauses)
+        print("Generated Graph!")
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("rg_", nd, w))
 
     def gen_manthey_alfonso_graph_features_BIG(self):
@@ -209,6 +218,7 @@ class SATInstance:
             print("Generating features from the paper of Manthey-Alfonso")
 
         _, nd, w = graph_features_manthey_alfonso.create_big(self.clauses)
+        print("Generated Graph!")
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("big_", nd, w))
 
     def gen_manthey_alfonso_graph_features_EB(self):
@@ -216,15 +226,19 @@ class SATInstance:
             print("Generating features from the paper of Manthey-Alfonso")
 
         andg, bandg, exog = graph_features_manthey_alfonso.create_exo_and_band(self.clauses)
+        print("Generated Graph!")
 
         nd, w = graph_features_manthey_alfonso.get_degrees_weights(andg)
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("and_", nd, w))
+        print("And finished!")
 
         nd, w = graph_features_manthey_alfonso.get_degrees_weights(bandg)
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("band_", nd, w))
+        print("Band finished!")
 
         nd, w = graph_features_manthey_alfonso.get_degrees_weights(exog)
         self.features_dict.update(graph_features_manthey_alfonso.get_graph_stats("exo_", nd, w))
+        print("Exo finished!")
 
     def gen_manthey_alfonso_graph_features_RWH(self):
         if self.verbose:
